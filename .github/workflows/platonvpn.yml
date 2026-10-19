@@ -24,11 +24,17 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install native build tools
+      - name: Install required SDK packages
         run: |
-          sdkmanager "ndk;27.2.12479018" \
-            "cmake;3.22.1" \
-            "platform-tools"
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-35" \
+            "build-tools;35.0.0" \
+            "ndk;27.2.12479018" \
+            "cmake;3.22.1"
+
+      - name: Accept SDK licenses
+        run: yes | sdkmanager --licenses || true
 
       - name: Build official open-source debug APK
         run: |
